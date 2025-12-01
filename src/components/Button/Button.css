@@ -1,0 +1,28 @@
+.button {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s;
+  color: #fff;
+}
+
+.button--default {
+  background: #007aff;
+  border-color: #005bb5;
+  &:hover {
+    background: #005bb5;
+    border-color: #007aff;
+  }
+}
+
+.button--negative {
+  background: #e70101;
+  border-color: #f10101;
+  &:hover {
+    background: #f10101;
+    border-color: #e70101;
+  }
+}
