@@ -3,6 +3,24 @@ export type City = { id: number; name: string; type?: 'city' };
 export type Hotel = { id: number; name: string; img?: string; type?: 'hotel' };
 export type GeoEntity = Country | City | Hotel;
 
+export type PriceOffer = {
+  id: string;
+  amount: number;
+  currency: string;
+  startDate: string;
+  endDate: string;
+  hotelID?: string;
+};
+
+export type StartSearchResponse = {
+  token: string;
+  waitUntil: string;
+};
+
+export type GetSearchPricesResponse = {
+  prices: Record<string, PriceOffer>;
+};
+
 export function getCountries(): Promise<Response>;
 export function searchGeo(query?: string): Promise<Response>;
 export function startSearchPrices(countryID: string): Promise<Response>;

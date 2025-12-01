@@ -8,7 +8,12 @@ import Dropdown from '../Dropdown/Dropdown';
 import Button from '../Button/Button';
 import './SearchForm.css';
 
-const SearchForm: React.FC<{ onSubmit: (value: GeoEntity) => void }> = ({ onSubmit }) => {
+interface SearchFormProps {
+  onSubmit: (value: GeoEntity) => void;
+  onNotFound?: (msg?: string) => void;
+}
+
+const SearchForm: React.FC<SearchFormProps> = ({ onSubmit, onNotFound }) => {
   const [inputValue, setInputValue] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selected, setSelected] = useState<GeoEntity | null>(null);
@@ -54,7 +59,8 @@ const SearchForm: React.FC<{ onSubmit: (value: GeoEntity) => void }> = ({ onSubm
         if (found) {
           onSubmit(found);
         } else {
-          console.log('Нічого не знайдено', resultAction.payload);
+          if (onNotFound) {
+            onNotFound();}
         }
       }
       setDropdownOpen(false);
