@@ -1,6 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectPriceOffers } from '../../store/selectors/tourSelectors';
+import SearchMessage from '../SearchMessage/SearchMessage';
+import TourCard from '../TourCard/TourCard';
+import { useHotelsByCountry } from '../../hooks/useHotelsByCountry';
+import { getSearchMessageProps } from '../../utils/getMessageProps';
 import './SearchResults.css';
 
 interface SearchResultsProps {
@@ -8,67 +12,36 @@ interface SearchResultsProps {
   error: string | null;
   isEmpty: boolean;
   infoMessage?: string | null;
+  countryId: string | null;
+  wasSearched?: boolean;
 }
 
-interface MessageProps {
-  icon: React.ReactNode;
-  title: string;
-  text?: string;
-  className: string;
-}
-
-const Message: React.FC<MessageProps> = ({ icon, title, text, className }) => (
-  <div className={`search-results ${className}`}>
-    <div>
-      {icon}
-      <h3>{title}</h3>
-      {text && <p>{text}</p>}
-    </div>
-  </div>
-);
-
-const SearchResults: React.FC<SearchResultsProps> = ({ loading, error, isEmpty, infoMessage }) => {
-  let messageProps: MessageProps | null = null;
+const SearchResults: React.FC<SearchResultsProps> = ({ loading, error, isEmpty, infoMessage, countryId, wasSearched }) => {
   const priceOffers = useSelector(selectPriceOffers);
+  const { hotels } = useHotelsByCountry(countryId);
 
-  console.log('priceOffers:', priceOffers); // в SearchResults
+  console.log("hotels:", hotels);
+  console.log('priceOffers:', priceOffers);
 
-  switch (true) {
-    case loading:
-      messageProps = {
-        icon: <div className="spinner"></div>,
-        title: "Шукаємо тури для вас...",
-        className: "search-results__loader"
-      };
-      break;
-    case !!infoMessage:
-      messageProps = {
-        icon: <span className="search-results__info-icon">ℹ️</span>,
-        title: infoMessage as string,
-        className: "search-results__info"
-      };
-      break;
-    case !!error:
-      messageProps = {
-        icon: <span className="search-results__error-icon">⚠️</span>,
-        title: "Виникла помилка",
-        text: error as string,
-        className: "search-results__error"
-      };
-      break;
-    case isEmpty:
-      messageProps = {
-        icon: <span className="search-results__empty-icon">🔍</span>,
-        title: "За вашим запитом турів не знайдено",
-        text: "Спробуйте змінити критерії пошуку",
-        className: "search-results__empty"
-      };
-      break;
-    default:
-      messageProps = null;
+  const searchMessageProps = getSearchMessageProps(loading, error, isEmpty, infoMessage);
+
+  if (searchMessageProps) {
+    return <SearchMessage {...searchMessageProps} />;
   }
 
-  return messageProps ? <Message {...messageProps} /> : null;
+  if (!wasSearched) return null;
+
+  return (
+    <div className="search-results__list">
+      {priceOffers.map(offer => (
+        <TourCard
+          key={offer.id}
+          offer={offer}
+          hotel={offer.hotelID ? hotels[offer.hotelID] : undefined}
+        />
+      ))}
+    </div>
+  );
 };
 
 export default SearchResults;

@@ -14,15 +14,20 @@ const HomePage: React.FC = () => {
   const [wasSearched, setWasSearched] = useState(false);
   const { loading, error, prices } = useSelector((state: RootState) => state.tourSearch);
   const priceOffers = useSelector(selectPriceOffers);
+  const [searchedCountryId, setSearchedCountryId] = useState<string | null>(null);
 
   const handleSearch = async (selected: GeoEntity) => {
     setWasSearched(true);
     if (selected.type === 'country') {
       setInfoMessage(null);
-      dispatch(clearSearchResults());
-      await dispatch(searchToursThunk(selected.id));
+      if (searchedCountryId !== selected.id) {
+        setSearchedCountryId(selected.id);
+        dispatch(clearSearchResults());
+        await dispatch(searchToursThunk(selected.id));
+      }
     } else {
       setInfoMessage('Пошук можливий тільки по країні');
+      setSearchedCountryId(null);
       dispatch(clearSearchResults());
     }
     console.log(priceOffers);
@@ -34,8 +39,7 @@ const HomePage: React.FC = () => {
     dispatch(clearSearchResults());
   };
 
-  const isEmpty = loading && !error && Object.keys(prices).length === 0 && !infoMessage;
-  const hasSearched = wasSearched;
+  const isEmpty = wasSearched && !loading && !error && Object.keys(prices).length === 0 && !infoMessage;
 
   return (
     <>
@@ -46,14 +50,14 @@ const HomePage: React.FC = () => {
         />
       </Container>
       <Container>
-        {hasSearched && (
-          <SearchResults 
-            loading={loading} 
-            error={error} 
-            isEmpty={isEmpty}
-            infoMessage={infoMessage}
-          />
-        )}
+        <SearchResults 
+          loading={loading} 
+          error={error} 
+          isEmpty={isEmpty}
+          infoMessage={infoMessage}
+          countryId={searchedCountryId}
+          wasSearched={wasSearched}
+        />
       </Container>
     </>
   );

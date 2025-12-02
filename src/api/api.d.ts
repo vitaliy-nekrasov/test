@@ -1,6 +1,15 @@
 export type Country = { id: string; name: string; flag: string; type?: 'country' };
 export type City = { id: number; name: string; type?: 'city' };
-export type Hotel = { id: number; name: string; img?: string; type?: 'hotel' };
+export type Hotel = {
+  id: number;
+  name: string;
+  img: string;
+  cityId: number;
+  cityName: string;
+  countryId: string;
+  countryName: string;
+  type?: 'hotel';
+};
 export type GeoEntity = Country | City | Hotel;
 
 export type PriceOffer = {
