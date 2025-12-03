@@ -19,7 +19,6 @@ export function useHotelsByCountry(countryId: string | null) {
       Promise.resolve().then(() => {
         setHotels(hotelsCache[countryId]);
         setLoading(false);
-        console.log('FROM CACHE', countryId);
       });
       return;
     }

@@ -19,10 +19,6 @@ interface SearchResultsProps {
 const SearchResults: React.FC<SearchResultsProps> = ({ loading, error, isEmpty, infoMessage, countryId, wasSearched }) => {
   const priceOffers = useSelector(selectPriceOffers);
   const { hotels } = useHotelsByCountry(countryId);
-
-  console.log("hotels:", hotels);
-  console.log('priceOffers:', priceOffers);
-
   const searchMessageProps = getSearchMessageProps(loading, error, isEmpty, infoMessage);
 
   if (searchMessageProps) {
@@ -38,6 +34,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ loading, error, isEmpty, 
           key={offer.id}
           offer={offer}
           hotel={offer.hotelID ? hotels[offer.hotelID] : undefined}
+          showLink={true} 
         />
       ))}
     </div>

@@ -23,14 +23,14 @@
 }
 
 .tour-card__hotel {
-  font-size: 1.1rem;
+  font-size: 18px;
   font-weight: bold;
   margin: 0;
 }
 
 .tour-card__location {
   color: #555;
-  font-size: 0.95rem;
+  font-size: 14px;
   display: flex;
   gap: 8px;
 }
@@ -41,18 +41,18 @@
 }
 
 .tour-card__dates {
-  font-size: 0.95rem;
+  font-size: 14px;
 }
 
 .tour-card__price {
-  font-size: 1.2rem;
+  font-size: 20px;
   font-weight: bold;
   color: #111;
 }
 
 .tour-card__link {
   color: #1976d2;
-  font-size: 0.95rem;
+  font-size: 14px;
   align-self: flex-start;
   &:hover {
     text-decoration: underline;

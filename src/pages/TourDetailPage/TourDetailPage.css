@@ -1,0 +1,27 @@
+.loading, 
+.error, 
+.empty {
+  text-align: center;
+  font-size: 24px;
+  padding: 25px;
+}
+
+.tour-detail {
+  grid-column: 1/5;
+  padding: 25px;
+
+  @media (min-width: 768px) {
+    grid-column: 2/12;
+  }
+}
+.back-btn {
+  margin-bottom: 24px;
+}
+
+.tour-detail__card {
+  max-width: 400px;
+
+  .tour-card__img {
+    height: 220px;
+  }
+}

@@ -1,0 +1,22 @@
+.tour-card__services {
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tour-card__description-title,
+.tour-card__services-title {
+  margin-bottom: 8px;
+}
+
+.tour-card__services-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tour-card__service-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+}

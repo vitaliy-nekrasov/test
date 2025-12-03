@@ -9,6 +9,8 @@ export type Hotel = {
   countryId: string;
   countryName: string;
   type?: 'hotel';
+  description: string;
+  services?: Record<string, string>;
 };
 export type GeoEntity = Country | City | Hotel;
 

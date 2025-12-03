@@ -30,7 +30,6 @@ const HomePage: React.FC = () => {
       setSearchedCountryId(null);
       dispatch(clearSearchResults());
     }
-    console.log(priceOffers);
   };
   
   const handleNotFound = () => {
