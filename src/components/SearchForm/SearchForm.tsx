@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store';
+import { AppDispatch, RootState } from '../../store';
 import { GeoEntity } from '../../api/api';
 import { fetchCountriesThunk, fetchGeoThunk, clearOptions } from '../../store/slices/geoSearchSlice';
-import { RootState } from '../../store';
 import Dropdown from '../Dropdown/Dropdown';
 import Button from '../Button/Button';
+import { getGeoIcon } from '../../utils/getGeoIcon';
 import './SearchForm.css';
 
 interface SearchFormProps {
@@ -136,11 +136,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSubmit, onNotFound, isCancell
             getKey={item => item.id}
             renderOption={item => (
               <>
-                <span>
-                  {item.type === 'country' && <img className='dropdown__flag' src={item.flag} />}
-                  {item.type === 'hotel' && <span className='dropdown__icon' role="img" aria-label="Готель">🏨</span>}
-                  {item.type === 'city' && <span className='dropdown__icon' role="img" aria-label="Місто">🏙️</span>}
-                </span>
+                <span>{getGeoIcon(item)}</span>
                 <span>{item.name}</span>
               </>
             )}
