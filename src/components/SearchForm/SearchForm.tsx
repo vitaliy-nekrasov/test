@@ -11,9 +11,10 @@ import './SearchForm.css';
 interface SearchFormProps {
   onSubmit: (value: GeoEntity) => void;
   onNotFound?: (msg?: string) => void;
+  isCancelling?: boolean;
 }
 
-const SearchForm: React.FC<SearchFormProps> = ({ onSubmit, onNotFound }) => {
+const SearchForm: React.FC<SearchFormProps> = ({ onSubmit, onNotFound, isCancelling }) => {
   const [inputValue, setInputValue] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selected, setSelected] = useState<GeoEntity | null>(null);
@@ -149,6 +150,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSubmit, onNotFound }) => {
       <Button
         type="submit"
         variant="default"
+        disabled={isCancelling}
       >
         Знайти
       </Button>

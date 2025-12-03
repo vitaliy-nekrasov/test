@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectPriceOffers } from '../store/selectors/tourSelectors';
 import SearchForm from '../components/SearchForm/SearchForm';
 import SearchResults from '../components/SearchResults/SearchResults';
-import { GeoEntity } from '../api/api';
+import { GeoEntity, stopSearchPrices } from '../api/api';
 import Container from '../layout/Container/Container';
 import { AppDispatch, RootState } from '../store';
 import { searchToursThunk, clearSearchResults } from '../store/slices/tourSearchSlice';
@@ -13,8 +12,8 @@ const HomePage: React.FC = () => {
   const [infoMessage, setInfoMessage] = useState<string | null>(null);
   const [wasSearched, setWasSearched] = useState(false);
   const { loading, error, prices } = useSelector((state: RootState) => state.tourSearch);
-  const priceOffers = useSelector(selectPriceOffers);
-  const [searchedCountryId, setSearchedCountryId] = useState<string | null>(null);
+  const [searchedCountryId, setSearchedCountryId] = useState<string | null>(null);const [activeToken, setActiveToken] = useState<string | null>(null);
+  const [isCancelling, setIsCancelling] = useState(false);
 
   const handleSearch = async (selected: GeoEntity) => {
     setWasSearched(true);
@@ -22,8 +21,26 @@ const HomePage: React.FC = () => {
       setInfoMessage(null);
       if (searchedCountryId !== selected.id) {
         setSearchedCountryId(selected.id);
-        dispatch(clearSearchResults());
-        await dispatch(searchToursThunk(selected.id));
+  
+        if (activeToken) {
+          setIsCancelling(true);
+          try {
+            await stopSearchPrices(activeToken);
+          } catch (err) {
+            console.error('Помилка скасування пошуку:', err);
+          }
+          setActiveToken(null);
+          dispatch(clearSearchResults());
+          const action = await dispatch(searchToursThunk(selected.id));
+          const token = (action.payload as { token?: string })?.token;
+          if (token) setActiveToken(token);
+          setIsCancelling(false);
+        } else {
+          dispatch(clearSearchResults());
+          const action = await dispatch(searchToursThunk(selected.id));
+          const token = (action.payload as { token?: string })?.token;
+          if (token) setActiveToken(token);
+        }
       }
     } else {
       setInfoMessage('Пошук можливий тільки по країні');
@@ -46,6 +63,7 @@ const HomePage: React.FC = () => {
         <SearchForm 
           onSubmit={handleSearch} 
           onNotFound={handleNotFound}
+          isCancelling={isCancelling}
         />
       </Container>
       <Container>

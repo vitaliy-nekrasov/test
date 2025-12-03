@@ -7,6 +7,18 @@
   border: 1px solid transparent;
   transition: background 0.15s;
   color: #fff;
+
+  &:disabled {
+    background: #ccc;
+    border-color: #aaa;
+    color: #636363;
+    cursor: not-allowed;
+    &:hover {
+      background: #ccc;
+      border-color: #aaa;
+      color: #636363;
+    }
+  }
 }
 
 .button--default {
