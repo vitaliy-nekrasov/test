@@ -42,7 +42,7 @@ const TourCard: React.FC<TourCardProps> = ({ offer, hotel, showDescriptionInfo, 
         {showLink && (
           <Link
             className="tour-card__link"
-            to={`/tour/${offer.id}`}
+            to={`/test/tour/${offer.id}`}
             state={{ hotelID: hotel.id }}
           >
             Відкрити ціну

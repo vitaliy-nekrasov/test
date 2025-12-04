@@ -47,7 +47,7 @@ const TourDetailPage: React.FC = () => {
     <Container>
       <div className="tour-detail">
         <Button type="button" variant="default" className='back-btn'>
-          <Link to="/">← Повернутися до пошуку</Link>
+          <Link to="/test/">← Повернутися до пошуку</Link>
         </Button>
         <TourCard 
           offer={priceOffer} 
